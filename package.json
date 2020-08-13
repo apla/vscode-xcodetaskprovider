@@ -1,0 +1,75 @@
+{
+	"name": "xcodeprovider",
+	"displayName": "XcodeProvider",
+	"description": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.47.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:xcodeprovider.expandWorkspaceFolder",
+		"onCommand:workbench.action.tasks.runTask"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "xcodeprovider.expandWorkspaceFolder",
+				"title": "Add folder from Xcode workspace"
+			}
+		],
+		"taskDefinitions": [
+			{
+				"type": "xcode",
+				"required": [
+					"task"
+				],
+				"properties": {
+					"task": {
+						"type": "string",
+						"description": "The Xcode task to customize"
+					},
+					"file": {
+						"type": "string",
+						"description": "The xcode project that provides the task. Can be omitted."
+					}
+				}
+			}
+		],
+		"problemMatchers": [{
+			"name": "xcodebuild",
+			"source": "xcodebuild",
+			"fileLocation": [
+				"autoDetect",
+				"${workspaceFolder}"
+			],
+			"pattern": {
+				"regexp": "^(.*):(\\d+):(\\d+):\\s+(?:fatal\\s+)?(warning|error|note):\\s+(.*)$",
+				"file": 1,
+				"line": 2,
+				"column": 3,
+				"severity": 4,
+				"message": 5
+			}
+		}]
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.47.0",
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.2",
+		"@types/node": "^13.11.0",
+		"eslint": "^6.8.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.1.2",
+		"typescript": "^3.8.3",
+		"vscode-test": "^1.3.0"
+	}
+}
